@@ -10,7 +10,7 @@ const envVarsSchema = Joi.object()
     NODE_ENV: Joi.string()
       .valid('test', 'development', 'production')
       .required(),
-    PORT: Joi.number().default(8082),
+    PORT: Joi.number().default(8088),
     MONGODB_URL: Joi.string().required(),
     TWILIO_PHONE: Joi.string().required(),
     TWILIO_SID: Joi.string().required(),
@@ -57,4 +57,8 @@ module.exports = {
   paystack: {
     secretKey: envVars.PAYSTACK_SECRET_KEY, 
   },
+  firebase: {
+    apiKey: process.env.FIREBASE_API_KEY,
+  },
 };
+
