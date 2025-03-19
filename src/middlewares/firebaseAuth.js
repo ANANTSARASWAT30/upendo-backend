@@ -1,14 +1,14 @@
-const admin = require('firebase-admin');
+const admin = require('../microservices/firebase.service');
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
-const serviceAccount = require('../../firebase-service-secret.json');
+
+// const serviceAccount = require('../../firebase-service-secret.json');
 const {authService} = require('../services');
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+// });
 
-// Firebase authentication middleware
 const firebaseAuth = (allowUserType = 'All') => async (req, res, next) => {
   return new Promise(async (resolve, reject) => {
     const token = req.headers?.authorization?.split(' ')[1];
@@ -23,7 +23,7 @@ const firebaseAuth = (allowUserType = 'All') => async (req, res, next) => {
       const user = await authService.getUserByFirebaseUId(payload.uid);
       if (!user) {
         console.log(req.path);
-        if (['/register'].includes(req.path) || req.path.includes('secretSignup')) {
+        if (['/register'].includes(req.path) || req.path.includes('register') || req.path.includes('secretSignup')) {
           req.newUser = payload;
           req.routeType = allowUserType;
         } else reject(new ApiError(httpStatus.NOT_FOUND, "User doesn't exist. Please create account"));

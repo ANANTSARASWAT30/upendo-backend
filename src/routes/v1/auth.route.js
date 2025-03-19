@@ -49,7 +49,7 @@ router.post(
 
 // Route to generate token (dev only)
 router.post(
-  '/generate-token',
+  '/token',
   validate(authValidation.generateToken),
   authController.generateToken
 );
