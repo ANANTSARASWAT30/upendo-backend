@@ -118,7 +118,7 @@ const generateToken = catchAsync(async (req, res) => {
 
   const token = await admin.auth().createCustomToken(req.body.uid);
   const response = await fetch(
-    `https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=${config.firebase.apiKey}`,
+    `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyCustomToken?key=${config.firebase.apiKey}`,
     {
       method: 'post',
       body: JSON.stringify({
@@ -136,75 +136,6 @@ const generateToken = catchAsync(async (req, res) => {
   });
 });
 
-// const generateToken = catchAsync(async (req, res) => {
-//   if (config.env !== 'development')
-//     throw new ApiError(httpStatus.NOT_FOUND, 'Could not find the route you are looking for');
-
-//   try {
-//     // Create a custom token
-//     const token = await admin.auth().createCustomToken(req.body.uid);
-    
-//     // Use the correct URL for verifying custom token
-//     const response = await fetch(
-//       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=${config.firebase.apiKey}`,
-//       {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({
-//           token,
-//           returnSecureToken: true,
-//         }),
-//       }
-//     );
-    
-//     // Check if the response is successful
-//     if (!response.ok) {
-//       const errorData = await response.json();
-//       console.error('Firebase error:', errorData);
-//       throw new ApiError(
-//         httpStatus.BAD_REQUEST, 
-//         `Firebase error: ${errorData.error?.message || 'Token exchange failed'}`
-//       );
-//     }
-    
-//     // Parse the response data
-//     const data = await response.json();
-    
-//     // Check if idToken exists in the response
-//     if (!data.idToken) {
-//       console.error('Firebase response missing idToken:', data);
-//       throw new ApiError(
-//         httpStatus.INTERNAL_SERVER_ERROR,
-//         'Failed to get ID token from Firebase'
-//       );
-//     }
-    
-//     res.status(httpStatus.OK).json({
-//       status: true,
-//       message: 'Token generated successfully',
-//       data: {
-//         customToken: token,
-//         idToken: data.idToken,
-//         // Include other useful fields from the response
-//         refreshToken: data.refreshToken,
-//         expiresIn: data.expiresIn
-//       },
-//     });
-//   } catch (error) {
-//     console.error('Token generation error:', error);
-    
-//     if (error instanceof ApiError) {
-//       throw error;
-//     }
-    
-//     throw new ApiError(
-//       httpStatus.INTERNAL_SERVER_ERROR,
-//       `Token generation failed: ${error.message}`
-//     );
-//   }
-// });
 
 module.exports = {
   generateToken,
