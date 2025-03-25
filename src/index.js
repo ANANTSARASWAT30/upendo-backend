@@ -13,9 +13,11 @@ mongoose
     console.log(err);
   });
 
-app.listen(config.port, () => {
-  console.log(`BNeighbourly app listening on port ${config.port}!`);
+ server = app.listen(config.port, () => {
+  console.log(`Greenbus app listening on port ${config.port}!`);
 });
+
+
 
 // ------------- Don't Modify  -------------
 const exitHandler = () => {
