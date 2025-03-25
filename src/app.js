@@ -13,6 +13,14 @@ const {errorConverter, errorHandler} = require('./middlewares/error');
 
 const app = express();
 
+
+app.get('/', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    message: 'Server is running'
+  });
+});
+
 //Morgan will handle logging HTTP requests,
 // while winston logger will take care of your application-specific logs
 if (config.env !== 'test') {
@@ -51,3 +59,10 @@ app.use(errorConverter);
 app.use(errorHandler);
 
 module.exports = app;
+
+
+
+app.use(errorHandler);
+
+module.exports = app;
+
